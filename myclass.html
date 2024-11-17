@@ -1,0 +1,49 @@
+<!-- templates/my_class.html -->
+{% extends 'partials/base.html' %}
+
+{% block content %}
+    <h1>Your Booked Classes</h1>
+
+    {% if booked_classes %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Class Name</th>
+                    <th>Class Date</th>
+                    <th>Class Time</th>
+                    <th>Status</th>
+                    <th>Review</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in booked_classes %}
+                    <tr>
+                        <td>{{ booking.class_name }}</td>
+                        <td>{{ booking.class_date }}</td>
+                        <td>{{ booking.class_time }}</td>
+                        <td>
+                            {% if booking.status == 'Booked' %}
+                                Booked
+                            {% else %}
+                                Completed
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if booking.status == 'Completed' and not booking.lesson_reviewed %}
+                                <a href="{% url 'review_lesson' booking.id %}">Submit Your Review</a>
+                            {% elif booking.lesson_reviewed %}
+                                <p>Your review: {{ booking.review }}</p>
+                            {% else %}
+                                <p>Your class is ongoing.</p>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You have no booked classes at the moment.</p>
+    {% endif %}
+
+    <a href="{% url 'schedule_class' %}">Schedule a new class</a>
+{% endblock %}

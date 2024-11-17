@@ -1,0 +1,17 @@
+<!-- templates/already_booked.html -->
+
+{% extends 'partials/base.html' %}
+
+{% block content %}
+    <h1>Booking Information</h1>
+
+    {% if already_booked %}
+        <p>You have already booked this slot. You cannot book it again.</p>
+    {% elif slot.is_available %}
+        <p>This slot is available for booking.</p>
+    {% else %}
+        <p>Sorry, this slot is no longer available for booking.</p>
+    {% endif %}
+    
+    <a href="{% url 'student_dashboard' %}">Back to Dashboard</a>
+{% endblock %}
